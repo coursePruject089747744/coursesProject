@@ -2,12 +2,19 @@ import express from 'express';
 import { protect } from '../middleware/authMiddleware.js';
 import { createCourse, enrollInCourse } from '../controllers/courseController.js';
 
-const router = express.Router();
+const courseRoutes = express.Router();
 
-router.post('/', protect, createCourse); // הוספת קורס
-router.post('/:id/enroll', protect, enrollInCourse); // הרשמה לקורס
+courseRoutes.post('/', protect, createCourse); // הוספת קורס
 
-export default router;
+// Course Routes
+// courseRoutes.get('/', protect, getAllCourses);
+// courseRoutes.get('/:courseId', protect, getCourseById);
+// courseRoutes.post('/createNewCourse', protect, createCourse);
+
+courseRoutes.post('/:id/enroll', protect, enrollInCourse); // הרשמה לקורס
+
+
+// export default router;
 
 
 
