@@ -1,4 +1,4 @@
-import { sender, transporter } from "./mailtrap.config.js";
+import { sender, transporter } from "./email.config.js";
 import { 
     PASSWORD_RESET_REQUEST_TEMPLATE, 
     PASSWORD_RESET_SUCCESS_TEMPLATE, 

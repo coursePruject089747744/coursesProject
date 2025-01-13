@@ -3,6 +3,11 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+export const sender = {
+  email: process.env.SENT_MAIL,
+  name: "קול - הילד קורסים ",
+};
+
 export const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -10,8 +15,3 @@ export const transporter = nodemailer.createTransport({
     pass: process.env.PASSWORD_MAIL
   }
 });
-
-export const sender = {
-  email: process.env.SENT_MAIL,
-  name: "קול - הילד קורסים ",
-};
