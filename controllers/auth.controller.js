@@ -27,15 +27,16 @@ export const login = async (req, res) => {
         createTokenAndSetCookie(res, user);
 
         user.lastLogin = new Date();
+
         await user.save();
+
+        const userObject = user.toObject();
+        delete userObject.password;
 
         res.status(200).json({
             success: true,
             message: "Logged in successfully",
-            user: {
-                ...user._doc,
-                password: undefined
-            }
+            user: userObject
         });
 
     } catch (error) {
@@ -74,13 +75,13 @@ export const signup = async (req, res) => {
         
         await user.save();
 
+        const userObject = user.toObject();
+        delete userObject.password;
+
         res.status(201).json({
             success: true,
             message: "User created successfully",
-            user: {
-                ...user._doc,
-                password: undefined
-            }
+            user: userObject
         });
     } catch (error) {
         console.log(error.message)
@@ -113,13 +114,13 @@ export const verifyEmail = async (req, res) => {
 
         await user.save();
 
+        const userObject = user.toObject();
+        delete userObject.password;
+
         res.status(200).json({
             success: true,
             message: "Email verified successfully",
-            user: {
-                ...user._doc,
-                password: undefined
-            }
+            user: userObject
         });
     } catch (error) {
         console.log("Error in verify Email", error);
@@ -174,6 +175,7 @@ export const resetPassword = async (req, res) => {
         user.password = hashedPassword;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpiresAt = undefined;
+
         await user.save();
 
         await sendResetSuccessEmail(user.email);

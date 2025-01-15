@@ -20,22 +20,24 @@ export const createTokenAndSetCookie = (res, user) => {
 };
 
 export const protect = async (req, res, next) => {
-  let token;
+  const token = req.cookies.token;
 
-  if (req.cookies && req.cookies.token) {
-    try {
-      token = req.cookies.token;
-      
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!token) {
+    return res.status(401).json({ message: 'Not authorized, no token' });
+  }
 
-      req.user = await User.findById(decoded.id).select('-password');
-      req.user.role = decoded.role; // מוסיף את התפקיד למידע על המשתמש
+  try {
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      next();
-    } catch (error) {
-      res.status(401).json({ message: 'Not authorized, token failed' });
+    req.user = await User.findById(decoded.id).select('-password');
+
+    if (!req.user) {
+      return res.status(404).json({ message: 'User not found' });
     }
-  } else {
-    res.status(401).json({ message: 'Not authorized, no token' });
+
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: 'Not authorized, invalid token' });
   }
 };
