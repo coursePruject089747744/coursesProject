@@ -1,6 +1,11 @@
 import express from 'express';
 import { protect } from '../middleware/authMiddleware.js';
-import { getUserProfile, getAllUsers, deleteUser, updateUser } from '../controllers/user.controller.js';
+import { 
+    getUserProfile, 
+    getAllUsers, 
+    deleteUser, 
+    updateUser 
+    } from '../controllers/user.controller.js';
 
 const router = express.Router();
 
